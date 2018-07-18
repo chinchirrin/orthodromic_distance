@@ -2,6 +2,9 @@
 
 namespace Intercom\Geolocation;
 
+/**
+ * Computes the distance between two GPS coords using the Great Circle technique
+ */
 class GreatCircleDistanceCalculator implements ICoordDistanceCalculator
 {
     const EARTH_RADIUS = 6371;
