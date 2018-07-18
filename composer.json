@@ -1,0 +1,22 @@
+{
+    "name": "andres/intercom",
+    "description": "Customers Finder",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Andres Rojas Moran",
+            "email": "arojasmoran@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/console": "^4.1"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src"
+        }
+    }
+}
