@@ -21,7 +21,6 @@ class GreatCircleDistanceCalculatorSpec extends ObjectBehavior
         $from = [53.34985936124078, -6.260243651751125];
         // Titanic Belfast
         $to = [54.6081729724316, -5.909649380798328];
-        //$this->shouldHaveType(GreatCircleDistanceCalculator::class);
         $this->calculateDistance($from, $to)
             ->shouldBeApproximately(141.78339, 1.0e-5);
     }
