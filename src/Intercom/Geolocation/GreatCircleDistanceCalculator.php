@@ -59,6 +59,15 @@ class GreatCircleDistanceCalculator implements ICoordDistanceCalculator
      */
     public function calculateDistance(array $from, array $to)
     {
+        // If an invalid input is detected fail at once
+        if ($this->hasInvalidTypeErrors($from)) {
+            return null;
+        }
+
+        if ($this->hasInvalidTypeErrors($to)) {
+            return null;
+        }
+
         $from = array_map([$this->unit_converter, 'degreesToRadians'], $from);
         $to = array_map([$this->unit_converter, 'degreesToRadians'], $to);
 
