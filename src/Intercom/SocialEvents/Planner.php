@@ -49,21 +49,65 @@ class Planner
     {
         $customers = $this->data_provider->records();
 
+        $to_be_invited = $this->filterCustomersWithinRadius($customers, $radius);
+
+        // Filter only name and user_id
+        $to_be_invited = $this->filterColumns($to_be_invited, ['name' => '' , 'user_id' => '']);
+
+        // Sort by user_id
+        $to_be_invited = $this->sortArrayByColumn($to_be_invited, 'user_id');
+
+        return $to_be_invited;
+    }
+
+    /**
+     * It filters out customers whose `dist_to_office` value is greater than the
+     * given radius.
+     *
+     * @param   array   $customers
+     * @param   float   $radius
+     * @return  array
+     */
+    public function filterCustomersWithinRadius(array $customers, $radius)
+    {
         array_walk($customers, [$this, 'addDistanceCol']);
         $to_be_invited = array_filter($customers, function (array $customer) use ($radius) {
             return $customer['dist_to_office'] <= $radius;
         });
 
-        // Filter only name and user_id
-        array_walk($to_be_invited, function (&$customer) {
-            $customer = array_intersect_key($customer, ['name' => '' , 'user_id' => '']);
+        return $to_be_invited;
+    }
+
+    /**
+     * Remove columns from `data` array that are not in the whitelist_cols array
+     *
+     * @param   array   $data
+     * @param   array   $whitelist_cols
+     * @return  array
+     */
+    public function filterColumns(array $data, array $whitelist_cols)
+    {
+        // Filter given keys in whitelist_cols
+        array_walk($data, function (&$customer) use ($whitelist_cols) {
+            $customer = array_intersect_key($customer, $whitelist_cols);
         });
 
-        // Sort by user_id
-        $sortby_col = array_column($to_be_invited, 'user_id');
-        array_multisort($sortby_col, SORT_ASC, SORT_NUMERIC, $to_be_invited);
+        return $data;
+    }
 
-        return $to_be_invited;
+    /**
+     * Sorts the array of assoc arrays by the given key (column name)
+     *
+     * @param   array   $data
+     * @param   string  $key
+     * @return  array
+     */
+    public function sortArrayByColumn(array $data, $key)
+    {
+        $sortby_col = array_column($data, $key);
+        array_multisort($sortby_col, SORT_ASC, SORT_NUMERIC, $data);
+
+        return $data;
     }
 
     /**
