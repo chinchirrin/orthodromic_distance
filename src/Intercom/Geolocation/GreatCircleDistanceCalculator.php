@@ -21,6 +21,36 @@ class GreatCircleDistanceCalculator implements ICoordDistanceCalculator
     }
 
     /**
+     * Checks whether given $value is an invalid number, return 1 if invalid,
+     * zero otherwise.
+     *
+     * @param   number  $value
+     * @return  bool;
+     */
+    public function isInvalidNumber($value)
+    {
+        return !is_numeric($value);
+    }
+
+    /**
+     * Search the given array of expected numbers for invalid types.
+     * It returs true if an error is found, false otherwhise.
+     *
+     * @param   array   $coords
+     * @return  bool
+     */
+    public function hasInvalidTypeErrors(array $coords)
+    {
+        $valid_types = array_map([$this, 'isInvalidNumber'], $coords);
+        $errors = array_reduce($valid_types, function /*sum*/($carry, $item) {
+            $carry += $item;
+            return $carry;
+        }, 0);
+
+        return $errors > 0;
+    }
+
+    /**
      * Computes the distance between two GPS coords
      *
      * @param   array   $from
