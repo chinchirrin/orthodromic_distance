@@ -17,6 +17,21 @@ class PlannerSpec extends ObjectBehavior
         $this->beConstructedWith($customer_provider, $dist_calculator, $dummy_gps_coords);
     }
 
+    function it_fiters_out_distances_out_of_range_or_invalid()
+    {
+        $radius = 100.0;
+        $data = [
+            ['dist_to_office' => 273],
+            ['dist_to_office' => null],
+            ['dist_to_office' => 73],
+        ];
+
+        $this->filterCustomersWithinRadius($data, $radius)
+             ->shouldReturn([
+                ['dist_to_office' => 73],
+             ]);
+    }
+
     function it_filters_columns_from_assoc_array()
     {
         $data = [
