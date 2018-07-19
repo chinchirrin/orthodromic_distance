@@ -4,6 +4,7 @@ namespace Intercom\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputOption;
 
 class NeighboringCustomersFinderCommand extends Command
 {
@@ -13,6 +14,13 @@ class NeighboringCustomersFinderCommand extends Command
             ->setName('intercom:search:customers')
             ->setDescription('Display the list of neighboring customers within configured radio')
             ->setHelp('This command allows to search for users near the office')
+            ->addOption(
+                'radius',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Distance in Km to filter out customers based on their location',
+                100.0
+            )
         ;
     }
 
@@ -26,14 +34,19 @@ class NeighboringCustomersFinderCommand extends Command
             return;
         }
 
-        $radius = 100.0;
+        $radius = (float) $input->getOption('radius');
+        if (!$radius) {
+            $output->writeln('Invalid value for radius, please make sure you input a valid distance value.');
+            return;
+        }
+
         $potential_invitees = $planner->gatherPotentialInviteesWithinRadius($radius);
-        $this->print($output, $potential_invitees);
+        $this->print($output, $potential_invitees, $radius);
     }
 
-    protected function print(OutputInterface $output, array $data)
+    protected function print(OutputInterface $output, array $data, $radius)
     {
-        $output->writeln('Customers within 100km radius:');
+        $output->writeln("Customers within $radius Km radius:");
         foreach ($data as $row) {
             $output->writeln('UserId: ' . $row['user_id'] . '; Name: ' . $row['name']);
         }
