@@ -13,7 +13,8 @@ class PlannerSpec extends ObjectBehavior
 {
     function let(ICustomersProvider $customer_provider, ICoordDistanceCalculator $dist_calculator)
     {
-        $this->beConstructedWith($customer_provider, $dist_calculator);
+        $dummy_gps_coords = [1,1];
+        $this->beConstructedWith($customer_provider, $dist_calculator, $dummy_gps_coords);
     }
 
     function it_filters_columns_from_assoc_array()
