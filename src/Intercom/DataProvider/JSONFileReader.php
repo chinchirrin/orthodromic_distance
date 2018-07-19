@@ -5,6 +5,11 @@ class JSONFileReader implements ICustomersProvider
 {
     private $filename;
 
+    /**
+     * Loads the customer records given the filename to the constructor.
+     *
+     * @return  array
+     */
     public function loadData()
     {
         $handle = fopen($this->filename, 'r');
@@ -18,6 +23,11 @@ class JSONFileReader implements ICustomersProvider
         return $data;
     }
 
+    /**
+     * Returns an array of customer records
+     *
+     * @return  array
+     */
     public function records()
     {
         // lazily load the JSON records
@@ -28,6 +38,12 @@ class JSONFileReader implements ICustomersProvider
         return $this->data;
     }
 
+    /**
+     * Validate the provided filename is a file
+     *
+     * @param   string  $filename
+     * @return  void
+     */
     private function validateFilename($filename)
     {
         if (!file_exists($filename)) {
@@ -35,6 +51,10 @@ class JSONFileReader implements ICustomersProvider
         }
     }
 
+    /**
+     * @throws  \InvalidArgumentException
+     * @param   string  $filename
+     */
     public function __construct($filename)
     {
         $this->validateFilename($filename);
