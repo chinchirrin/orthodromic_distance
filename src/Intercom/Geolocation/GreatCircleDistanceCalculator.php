@@ -1,5 +1,4 @@
 <?php
-
 namespace Intercom\Geolocation;
 
 /**
@@ -36,7 +35,6 @@ class GreatCircleDistanceCalculator implements ICoordDistanceCalculator
         list($lat2, $lon2) = $to;
 
         $delta = $this->computeDeltaWithVincentyFormula($lat1, $lon1, $lat2, $lon2);
-        //$delta = $this->computeDeltaWithlawOfCosines($lat1, $lon1, $lat2, $lon2);
         $distance = self::EARTH_RADIUS * $delta;
 
         return $distance;
@@ -73,13 +71,6 @@ class GreatCircleDistanceCalculator implements ICoordDistanceCalculator
         $latlon_cos = cos($lat1) * cos($lat2) * cos($delta_long);
 
         return $lat_sins + $latlon_cos;
-    }
-
-    public function computeDeltaWithlawOfCosines($lat1, $lon1, $lat2, $lon2)
-    {
-        $delta = acos($this->cosines($lat1, $lon1, $lat2, $lon2));
-
-        return $delta;
     }
 
     /**
