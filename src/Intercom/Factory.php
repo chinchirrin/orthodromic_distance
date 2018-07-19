@@ -17,6 +17,10 @@ class Factory
 
             break;
         case 'Intercom\Geolocation\GreatCircleDistanceCalculator':
+            $unit_converter = $this->create(\Intercom\Helper\UnitConverter::class);
+            $instance = new $fqcn($unit_converter);
+            break;
+        case 'Intercom\Helper\UnitConverter':
             $instance = new $fqcn();
             break;
         case 'Intercom\SocialEvents\Planner':
