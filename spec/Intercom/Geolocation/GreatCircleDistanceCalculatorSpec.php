@@ -24,5 +24,11 @@ class GreatCircleDistanceCalculatorSpec extends ObjectBehavior
         $this->calculateDistance($from, $to)
             ->shouldBeApproximately(141.78339, 1.0e-5);
     }
+
+    function it_should_handle_invalid_inputs_gracefully()
+    {
+        $this->calculateDistance(['invalid'], ['input'])
+            ->shouldReturn(null);
+    }
 }
 
