@@ -67,6 +67,8 @@ class Planner
     /**
      * It filters out customers whose `dist_to_office` value is greater than the
      * given radius.
+     * Items with either invalid `dist_to_office` type or greater than radius -
+     * are filter out.
      *
      * @param   array   $customers
      * @param   float   $radius
@@ -75,7 +77,8 @@ class Planner
     public function filterCustomersWithinRadius(array $customers, $radius)
     {
         $to_be_invited = array_filter($customers, function (array $customer) use ($radius) {
-            return $customer['dist_to_office'] <= $radius;
+            $valid_type = is_numeric($customer['dist_to_office']);
+            return $valid_type && $customer['dist_to_office'] <= $radius;
         });
 
         return $to_be_invited;
