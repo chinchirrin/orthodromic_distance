@@ -51,6 +51,8 @@ class Planner
     {
         $customers = $this->data_provider->records();
 
+        // Compute the distance and add it to the customer array
+        array_walk($customers, [$this, 'addDistanceCol']);
         $to_be_invited = $this->filterCustomersWithinRadius($customers, $radius);
 
         // Filter only name and user_id
@@ -72,7 +74,6 @@ class Planner
      */
     public function filterCustomersWithinRadius(array $customers, $radius)
     {
-        array_walk($customers, [$this, 'addDistanceCol']);
         $to_be_invited = array_filter($customers, function (array $customer) use ($radius) {
             return $customer['dist_to_office'] <= $radius;
         });
