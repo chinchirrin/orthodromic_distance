@@ -8,6 +8,13 @@ use Prophecy\Argument;
 
 class GreatCircleDistanceCalculatorSpec extends ObjectBehavior
 {
+    function let()
+    {
+        $factory = new \Intercom\Factory();
+        $unit_converter = $factory->create(\Intercom\Helper\UnitConverter::class);
+        $this->beConstructedWith($unit_converter);
+    }
+
     function it_calculates_the_distance_between_two_points()
     {
         // Spire in Dublin
