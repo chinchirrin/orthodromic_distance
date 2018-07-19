@@ -18,5 +18,17 @@ class UnitConverterSpec extends ObjectBehavior
         $this->degreesToRadians($degrees)
             ->shouldBeApproximately(0.9311, 1.0e-4);
     }
+
+    function it_gracefully_handles_invalid_inputs()
+    {
+        $this->degreesToRadians(null)
+            ->shouldReturn(null);
+
+        $this->degreesToRadians('null')
+            ->shouldReturn(null);
+
+        $this->degreesToRadians([])
+            ->shouldReturn(null);
+    }
 }
 
