@@ -81,7 +81,7 @@ class Planner
             return $valid_type && $customer['dist_to_office'] <= $radius;
         });
 
-        return $to_be_invited;
+        return array_values($to_be_invited);
     }
 
     /**
