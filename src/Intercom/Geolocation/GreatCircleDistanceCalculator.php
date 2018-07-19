@@ -1,6 +1,8 @@
 <?php
 namespace Intercom\Geolocation;
 
+use Intercom\Helper\UnitConverter;
+
 /**
  * Computes the distance between two GPS coords using the Great Circle technique
  */
@@ -9,14 +11,13 @@ class GreatCircleDistanceCalculator implements ICoordDistanceCalculator
     const EARTH_RADIUS = 6371;
 
     /**
-     * @param   float   $degrees
-     * @return  float
+     * @var     \Intercom\Helper\UnitConverter
      */
-    public function degreesToRadians($degrees)
-    {
-        $radians = $degrees * pi() / 180.0;
+    private $unit_converter;
 
-        return $radians;
+    public function __construct(UnitConverter $unit_converter)
+    {
+        $this->unit_converter = $unit_converter;
     }
 
     /**
@@ -28,8 +29,8 @@ class GreatCircleDistanceCalculator implements ICoordDistanceCalculator
      */
     public function calculateDistance(array $from, array $to)
     {
-        $from = array_map([$this, 'degreesToRadians'], $from);
-        $to = array_map([$this, 'degreesToRadians'], $to);
+        $from = array_map([$this->unit_converter, 'degreesToRadians'], $from);
+        $to = array_map([$this->unit_converter, 'degreesToRadians'], $to);
 
         list($lat1, $lon1) = $from;
         list($lat2, $lon2) = $to;
