@@ -20,22 +20,24 @@ class Planner
     private $dist_calculator;
 
     /**
-     * @var     array
+     * @var     array   With the gps coords (lat and long)
      */
     private $office_location;
 
     /**
      * @param   ICustomersProvider
      * @param   ICoordDistanceCalculator
+     * @param   array
      */
     public function __construct(
         ICustomersProvider $data_provider,
-        ICoordDistanceCalculator $dist_calculator
+        ICoordDistanceCalculator $dist_calculator,
+        $office_location
     ) {
         $this->data_provider = $data_provider;
         $this->dist_calculator = $dist_calculator;
 
-        $this->office_location = [53.339428, -6.257664];
+        $this->office_location = $office_location;
     }
 
     /**

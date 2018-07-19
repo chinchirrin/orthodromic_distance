@@ -26,7 +26,9 @@ class Factory
         case 'Intercom\SocialEvents\Planner':
             $data_provider = $this->create(\Intercom\DataProvider\JSONFileReader::class);
             $dist_calculator = $this->create(\Intercom\Geolocation\GreatCircleDistanceCalculator::class);
-            $instance = new $fqcn($data_provider, $dist_calculator);
+            // @todo: Read the gps coords from either a config file or a db.
+            $office_gps_coords = [53.339428, -6.257664];
+            $instance = new $fqcn($data_provider, $dist_calculator, $office_gps_coords);
 
             break;
         }
